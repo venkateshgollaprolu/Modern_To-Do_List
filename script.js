@@ -1,6 +1,7 @@
 /* =====================================================
    MODERN TO-DO LIST
-   Main JavaScript
+   Complete JavaScript
+   Features through Step 11
    ===================================================== */
 
 
@@ -21,7 +22,8 @@ let searchQuery = "";
 
 function loadTasks() {
 
-    const savedTasks = localStorage.getItem("modernTodoTasks");
+    const savedTasks =
+        localStorage.getItem("modernTodoTasks");
 
     if (!savedTasks) {
         return [];
@@ -29,7 +31,32 @@ function loadTasks() {
 
     try {
 
-        return JSON.parse(savedTasks);
+        const parsedTasks =
+            JSON.parse(savedTasks);
+
+        /*
+         * Normalize old tasks.
+         *
+         * Tasks created before Priority and Due Date
+         * were introduced may not contain these fields.
+         */
+
+        return parsedTasks.map(task => ({
+
+            id: task.id,
+
+            title: task.title,
+
+            completed:
+                Boolean(task.completed),
+
+            priority:
+                task.priority || "medium",
+
+            dueDate:
+                task.dueDate || ""
+
+        }));
 
     } catch (error) {
 
@@ -86,95 +113,696 @@ const filterButtons =
 
 
 /* =====================================================
-   5. ADD TASK
+   5. TASK MODAL ELEMENTS
    ===================================================== */
 
-function addTask() {
+const taskModal =
+    document.getElementById("taskModal");
 
-    const title = prompt("Enter your task:");
+const taskForm =
+    document.getElementById("taskForm");
 
-    if (!title) {
-        return;
+const taskInput =
+    document.getElementById("taskInput");
+
+const closeModalBtn =
+    document.getElementById("closeModalBtn");
+
+const cancelModalBtn =
+    document.getElementById("cancelModalBtn");
+
+
+/* =====================================================
+   6. DATE & GREETING ELEMENTS
+   ===================================================== */
+
+const greetingElement =
+    document.getElementById("greeting");
+
+const currentDateElement =
+    document.getElementById("currentDate");
+
+
+/* =====================================================
+   7. PRIORITY & DUE DATE ELEMENTS
+   ===================================================== */
+
+const dueDateInput =
+    document.getElementById("dueDateInput");
+
+const priorityInputs =
+    document.querySelectorAll(
+        'input[name="priority"]'
+    );
+
+
+/* =====================================================
+   8. DATE & GREETING
+   ===================================================== */
+
+function updateGreeting() {
+
+    const currentHour =
+        new Date().getHours();
+
+    let greeting;
+
+    if (currentHour < 12) {
+
+        greeting =
+            "Good Morning ☀️";
+
+    } else if (currentHour < 17) {
+
+        greeting =
+            "Good Afternoon 👋";
+
+    } else if (currentHour < 21) {
+
+        greeting =
+            "Good Evening 🌆";
+
+    } else {
+
+        greeting =
+            "Good Night 🌙";
     }
 
-    const trimmedTitle = title.trim();
-
-    if (trimmedTitle === "") {
-        return;
-    }
-
-    const newTask = {
-
-        id: Date.now(),
-
-        title: trimmedTitle,
-
-        completed: false
-    };
-
-    tasks.push(newTask);
-
-    saveTasks();
-
-    renderTasks();
-
-    updateStatistics();
+    greetingElement.textContent =
+        greeting;
 }
 
 
 /* =====================================================
-   6. RENDER TASKS
+   9. UPDATE CURRENT DATE
+   ===================================================== */
+
+function updateDate() {
+
+    const today =
+        new Date();
+
+    const weekday =
+        today.toLocaleDateString(
+            "en-US",
+            {
+                weekday: "long"
+            }
+        );
+
+    const month =
+        today.toLocaleDateString(
+            "en-US",
+            {
+                month: "long"
+            }
+        );
+
+    const day =
+        today.getDate();
+
+    const ordinalSuffix =
+        getOrdinalSuffix(day);
+
+    currentDateElement.textContent =
+        `${weekday}, ${month} ${day}${ordinalSuffix}`;
+}
+
+
+/* =====================================================
+   10. GET ORDINAL SUFFIX
+   ===================================================== */
+
+function getOrdinalSuffix(day) {
+
+    if (
+        day >= 11 &&
+        day <= 13
+    ) {
+
+        return "th";
+    }
+
+    switch (day % 10) {
+
+        case 1:
+            return "st";
+
+        case 2:
+            return "nd";
+
+        case 3:
+            return "rd";
+
+        default:
+            return "th";
+    }
+}
+
+
+/* =====================================================
+   11. GET SELECTED PRIORITY
+   ===================================================== */
+
+function getSelectedPriority() {
+
+    const selectedPriority =
+        document.querySelector(
+            'input[name="priority"]:checked'
+        );
+
+    return selectedPriority
+        ? selectedPriority.value
+        : "medium";
+}
+
+
+/* =====================================================
+   12. OPEN ADD TASK MODAL
+   ===================================================== */
+
+function openTaskModal() {
+
+    taskModal.hidden = false;
+
+    taskInput.value = "";
+
+    /*
+     * Reset priority to Medium.
+     */
+
+    priorityInputs.forEach(input => {
+
+        input.checked =
+            input.value === "medium";
+
+    });
+
+    /*
+     * Clear due date.
+     */
+
+    dueDateInput.value = "";
+
+    /*
+     * Make sure modal is in ADD mode.
+     */
+
+    delete taskForm.dataset.editingId;
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Add New Task";
+
+    document.querySelector(
+        ".modal-label"
+    ).textContent =
+        "Stay productive";
+
+    document.querySelector(
+        ".submit-task-btn"
+    ).textContent =
+        "Add Task";
+
+    setTimeout(() => {
+
+        taskInput.focus();
+
+    }, 50);
+}
+
+
+/* =====================================================
+   13. OPEN EDIT TASK MODAL
+   ===================================================== */
+
+function openEditModal(taskId) {
+
+    const task =
+        tasks.find(
+            task => task.id === taskId
+        );
+
+    if (!task) {
+        return;
+    }
+
+    /*
+     * Open modal.
+     */
+
+    taskModal.hidden = false;
+
+    /*
+     * Load existing title.
+     */
+
+    taskInput.value =
+        task.title;
+
+    /*
+     * Store the ID of the task
+     * currently being edited.
+     */
+
+    taskForm.dataset.editingId =
+        taskId;
+
+    /*
+     * Load priority.
+     *
+     * Older tasks default to Medium.
+     */
+
+    const taskPriority =
+        task.priority || "medium";
+
+    priorityInputs.forEach(input => {
+
+        input.checked =
+            input.value === taskPriority;
+
+    });
+
+    /*
+     * Load due date.
+     */
+
+    dueDateInput.value =
+        task.dueDate || "";
+
+    /*
+     * Change modal text to EDIT mode.
+     */
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Edit Task";
+
+    document.querySelector(
+        ".modal-label"
+    ).textContent =
+        "Update your task";
+
+    document.querySelector(
+        ".submit-task-btn"
+    ).textContent =
+        "Save Changes";
+
+    /*
+     * Focus and select existing title.
+     */
+
+    setTimeout(() => {
+
+        taskInput.focus();
+
+        taskInput.select();
+
+    }, 50);
+}
+
+
+/* =====================================================
+   14. CLOSE TASK MODAL
+   ===================================================== */
+
+function closeTaskModal() {
+
+    taskModal.hidden = true;
+
+    taskForm.reset();
+
+    delete taskForm.dataset.editingId;
+
+    /*
+     * Restore default priority.
+     */
+
+    priorityInputs.forEach(input => {
+
+        input.checked =
+            input.value === "medium";
+
+    });
+
+    /*
+     * Clear due date.
+     */
+
+    dueDateInput.value = "";
+
+    /*
+     * Restore ADD mode.
+     */
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Add New Task";
+
+    document.querySelector(
+        ".modal-label"
+    ).textContent =
+        "Stay productive";
+
+    document.querySelector(
+        ".submit-task-btn"
+    ).textContent =
+        "Add Task";
+}
+
+
+/* =====================================================
+   15. ADD OR UPDATE TASK
+   ===================================================== */
+
+function addTask(event) {
+
+    event.preventDefault();
+
+    const title =
+        taskInput.value.trim();
+
+    /*
+     * Don't allow empty tasks.
+     */
+
+    if (title === "") {
+
+        taskInput.focus();
+
+        return;
+    }
+
+    const priority =
+        getSelectedPriority();
+
+    const dueDate =
+        dueDateInput.value;
+
+    const editingId =
+        taskForm.dataset.editingId;
+
+
+    /* =================================================
+       EDIT EXISTING TASK
+       ================================================= */
+
+    if (editingId) {
+
+        const task =
+            tasks.find(
+                task =>
+                    task.id ===
+                    Number(editingId)
+            );
+
+        if (task) {
+
+            task.title =
+                title;
+
+            task.priority =
+                priority;
+
+            task.dueDate =
+                dueDate;
+        }
+
+    }
+
+
+    /* =================================================
+       CREATE NEW TASK
+       ================================================= */
+
+    else {
+
+        const newTask = {
+
+            id: Date.now(),
+
+            title: title,
+
+            completed: false,
+
+            priority: priority,
+
+            dueDate: dueDate
+
+        };
+
+        tasks.push(newTask);
+    }
+
+
+    /*
+     * Save changes.
+     */
+
+    saveTasks();
+
+    /*
+     * Update UI.
+     */
+
+    renderTasks();
+
+    updateStatistics();
+
+    /*
+     * Close modal.
+     */
+
+    closeTaskModal();
+}
+
+
+/* =====================================================
+   16. GET DUE DATE STATUS
+   ===================================================== */
+
+function getDueDateStatus(dueDate) {
+
+    if (!dueDate) {
+
+        return null;
+    }
+
+    /*
+     * Get today's date without time.
+     */
+
+    const today =
+        new Date();
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+    /*
+     * Convert stored date into Date object.
+     */
+
+    const due =
+        new Date(
+            `${dueDate}T00:00:00`
+        );
+
+    /*
+     * Calculate difference in days.
+     */
+
+    const difference =
+        Math.round(
+            (
+                due - today
+            ) /
+            (
+                1000 *
+                60 *
+                60 *
+                24
+            )
+        );
+
+
+    /*
+     * Past date
+     */
+
+    if (difference < 0) {
+
+        return {
+
+            label: "Overdue",
+
+            className: "overdue"
+
+        };
+    }
+
+
+    /*
+     * Today
+     */
+
+    if (difference === 0) {
+
+        return {
+
+            label: "Today",
+
+            className: "today"
+
+        };
+    }
+
+
+    /*
+     * Tomorrow
+     */
+
+    if (difference === 1) {
+
+        return {
+
+            label: "Tomorrow",
+
+            className: "tomorrow"
+
+        };
+    }
+
+
+    /*
+     * Future date
+     */
+
+    return {
+
+        label:
+            due.toLocaleDateString(
+                "en-US",
+                {
+                    month: "short",
+                    day: "numeric"
+                }
+            ),
+
+        className: "upcoming"
+
+    };
+}
+
+
+/* =====================================================
+   17. RENDER TASKS
    ===================================================== */
 
 function renderTasks() {
 
+    /*
+     * Clear current task list.
+     */
+
     taskList.innerHTML = "";
 
-    const filteredTasks = getFilteredTasks();
+    /*
+     * Get filtered tasks.
+     */
 
-    if (filteredTasks.length === 0) {
+    const filteredTasks =
+        getFilteredTasks();
+
+
+    /*
+     * Show empty state if no tasks exist.
+     */
+
+    if (
+        filteredTasks.length === 0
+    ) {
 
         emptyState.hidden = false;
 
         return;
     }
 
+
+    /*
+     * Hide empty state.
+     */
+
     emptyState.hidden = true;
 
+
+    /*
+     * Create each task element.
+     */
 
     filteredTasks.forEach(task => {
 
         const taskElement =
             createTaskElement(task);
 
-        taskList.appendChild(taskElement);
-
+        taskList.appendChild(
+            taskElement
+        );
     });
 }
 
 
 /* =====================================================
-   7. CREATE TASK ELEMENT
+   18. CREATE TASK ELEMENT
    ===================================================== */
 
 function createTaskElement(task) {
 
+    /*
+     * Main task container.
+     */
+
     const taskItem =
         document.createElement("div");
 
-    taskItem.className = "task-item";
+    taskItem.className =
+        "task-item";
 
+
+    /*
+     * Add completed class.
+     */
 
     if (task.completed) {
 
-        taskItem.classList.add("completed");
-
+        taskItem.classList.add(
+            "completed"
+        );
     }
 
 
-    /* -------------------------------
-       Checkbox
-       ------------------------------- */
+    /*
+     * Accessibility label.
+     */
+
+    taskItem.setAttribute(
+        "aria-label",
+        task.completed
+            ? `Completed task: ${task.title}`
+            : `Active task: ${task.title}`
+    );
+
+
+    /* =================================================
+       CHECKBOX
+       ================================================= */
 
     const checkbox =
         document.createElement("button");
@@ -182,17 +810,36 @@ function createTaskElement(task) {
     checkbox.className =
         "task-checkbox";
 
-    checkbox.type = "button";
+    checkbox.type =
+        "button";
+
+
+    /*
+     * Dynamic accessibility label.
+     */
 
     checkbox.setAttribute(
         "aria-label",
-        `Mark "${task.title}" as complete`
+        task.completed
+            ? `Mark "${task.title}" as active`
+            : `Mark "${task.title}" as complete`
     );
 
 
-    /* -------------------------------
-       Task Text
-       ------------------------------- */
+    /* =================================================
+       TASK CONTENT
+       ================================================= */
+
+    const taskContent =
+        document.createElement("div");
+
+    taskContent.className =
+        "task-content";
+
+
+    /*
+     * Task title.
+     */
 
     const taskText =
         document.createElement("span");
@@ -204,9 +851,134 @@ function createTaskElement(task) {
         task.title;
 
 
-    /* -------------------------------
-       Delete Button
-       ------------------------------- */
+    /* =================================================
+       TASK META
+       ================================================= */
+
+    const taskMeta =
+        document.createElement("div");
+
+    taskMeta.className =
+        "task-meta";
+
+
+    /* =================================================
+       PRIORITY BADGE
+       ================================================= */
+
+    const priorityBadge =
+        document.createElement("span");
+
+    const priority =
+        task.priority || "medium";
+
+    priorityBadge.className =
+        `task-priority ${priority}`;
+
+    priorityBadge.textContent =
+        `${priority.charAt(0).toUpperCase()}${priority.slice(1)} Priority`;
+
+    taskMeta.appendChild(
+        priorityBadge
+    );
+
+
+    /* =================================================
+       DUE DATE BADGE
+       ================================================= */
+
+    /*
+     * Don't show overdue/today/etc.
+     * for completed tasks.
+     */
+
+    if (
+        task.dueDate &&
+        !task.completed
+    ) {
+
+        const dueDateBadge =
+            document.createElement("span");
+
+        const dueStatus =
+            getDueDateStatus(
+                task.dueDate
+            );
+
+        dueDateBadge.className =
+            `task-due-date ${dueStatus.className}`;
+
+
+        if (
+            dueStatus.className ===
+            "overdue"
+        ) {
+
+            dueDateBadge.textContent =
+                `⚠️ ${dueStatus.label}`;
+
+        } else {
+
+            dueDateBadge.textContent =
+                `📅 ${dueStatus.label}`;
+        }
+
+
+        taskMeta.appendChild(
+            dueDateBadge
+        );
+    }
+
+
+    /*
+     * Build task content.
+     */
+
+    taskContent.appendChild(
+        taskText
+    );
+
+    taskContent.appendChild(
+        taskMeta
+    );
+
+
+    /* =================================================
+       TASK ACTIONS
+       ================================================= */
+
+    const actionsContainer =
+        document.createElement("div");
+
+    actionsContainer.className =
+        "task-actions";
+
+
+    /* =================================================
+       EDIT BUTTON
+       ================================================= */
+
+    const editButton =
+        document.createElement("button");
+
+    editButton.className =
+        "edit-task";
+
+    editButton.type =
+        "button";
+
+    editButton.textContent =
+        "✎";
+
+    editButton.setAttribute(
+        "aria-label",
+        `Edit "${task.title}"`
+    );
+
+
+    /* =================================================
+       DELETE BUTTON
+       ================================================= */
 
     const deleteButton =
         document.createElement("button");
@@ -214,9 +986,11 @@ function createTaskElement(task) {
     deleteButton.className =
         "delete-task";
 
-    deleteButton.type = "button";
+    deleteButton.type =
+        "button";
 
-    deleteButton.textContent = "×";
+    deleteButton.textContent =
+        "×";
 
     deleteButton.setAttribute(
         "aria-label",
@@ -224,43 +998,74 @@ function createTaskElement(task) {
     );
 
 
-    /* -------------------------------
-       Checkbox Event
-       ------------------------------- */
+    /* =================================================
+       CHECKBOX EVENT
+       ================================================= */
 
     checkbox.addEventListener(
         "click",
         () => {
 
-            toggleTask(task.id);
-
+            toggleTask(
+                task.id
+            );
         }
     );
 
 
-    /* -------------------------------
-       Delete Event
-       ------------------------------- */
+    /* =================================================
+       EDIT EVENT
+       ================================================= */
+
+    editButton.addEventListener(
+        "click",
+        () => {
+
+            openEditModal(
+                task.id
+            );
+        }
+    );
+
+
+    /* =================================================
+       DELETE EVENT
+       ================================================= */
 
     deleteButton.addEventListener(
         "click",
         () => {
 
-            deleteTask(task.id);
-
+            deleteTask(
+                task.id
+            );
         }
     );
 
 
-    /* -------------------------------
-       Build Task Element
-       ------------------------------- */
+    /* =================================================
+       BUILD TASK ELEMENT
+       ================================================= */
 
-    taskItem.appendChild(checkbox);
+    actionsContainer.appendChild(
+        editButton
+    );
 
-    taskItem.appendChild(taskText);
+    actionsContainer.appendChild(
+        deleteButton
+    );
 
-    taskItem.appendChild(deleteButton);
+    taskItem.appendChild(
+        checkbox
+    );
+
+    taskItem.appendChild(
+        taskContent
+    );
+
+    taskItem.appendChild(
+        actionsContainer
+    );
 
 
     return taskItem;
@@ -268,7 +1073,7 @@ function createTaskElement(task) {
 
 
 /* =====================================================
-   8. TOGGLE TASK COMPLETION
+   19. TOGGLE TASK COMPLETION
    ===================================================== */
 
 function toggleTask(taskId) {
@@ -278,17 +1083,30 @@ function toggleTask(taskId) {
             task => task.id === taskId
         );
 
-
     if (!task) {
+
         return;
     }
 
+
+    /*
+     * Toggle completion state.
+     */
 
     task.completed =
         !task.completed;
 
 
+    /*
+     * Save updated task.
+     */
+
     saveTasks();
+
+
+    /*
+     * Refresh interface.
+     */
 
     renderTasks();
 
@@ -297,18 +1115,59 @@ function toggleTask(taskId) {
 
 
 /* =====================================================
-   9. DELETE TASK
+   20. DELETE TASK
    ===================================================== */
 
 function deleteTask(taskId) {
 
-    tasks =
-        tasks.filter(
-            task => task.id !== taskId
+    const task =
+        tasks.find(
+            task => task.id === taskId
+        );
+
+    if (!task) {
+
+        return;
+    }
+
+
+    /*
+     * Ask for confirmation.
+     */
+
+    const confirmed =
+        confirm(
+            `Delete "${task.title}"?`
         );
 
 
+    if (!confirmed) {
+
+        return;
+    }
+
+
+    /*
+     * Remove task.
+     */
+
+    tasks =
+        tasks.filter(
+            task =>
+                task.id !== taskId
+        );
+
+
+    /*
+     * Save changes.
+     */
+
     saveTasks();
+
+
+    /*
+     * Refresh interface.
+     */
 
     renderTasks();
 
@@ -317,55 +1176,65 @@ function deleteTask(taskId) {
 
 
 /* =====================================================
-   10. FILTER TASKS
+   21. FILTER TASKS
    ===================================================== */
 
 function getFilteredTasks() {
 
-    let filteredTasks = [...tasks];
+    /*
+     * Create a copy so the original
+     * tasks array isn't modified.
+     */
+
+    let filteredTasks =
+        [...tasks];
 
 
-    /* -------------------------------
-       Filter by Status
-       ------------------------------- */
+    /* =================================================
+       FILTER BY STATUS
+       ================================================= */
 
-    if (currentFilter === "active") {
+    if (
+        currentFilter ===
+        "active"
+    ) {
 
         filteredTasks =
             filteredTasks.filter(
-                task => !task.completed
+                task =>
+                    !task.completed
             );
 
-    }
-
-
-    else if (currentFilter === "completed") {
+    } else if (
+        currentFilter ===
+        "completed"
+    ) {
 
         filteredTasks =
             filteredTasks.filter(
-                task => task.completed
+                task =>
+                    task.completed
             );
-
     }
 
 
-    /* -------------------------------
-       Filter by Search
-       ------------------------------- */
+    /* =================================================
+       FILTER BY SEARCH
+       ================================================= */
 
-    if (searchQuery !== "") {
+    if (
+        searchQuery !== ""
+    ) {
 
         filteredTasks =
-            filteredTasks.filter(task =>
-
-                task.title
-                    .toLowerCase()
-                    .includes(
-                        searchQuery.toLowerCase()
-                    )
-
+            filteredTasks.filter(
+                task =>
+                    task.title
+                        .toLowerCase()
+                        .includes(
+                            searchQuery
+                        )
             );
-
     }
 
 
@@ -374,32 +1243,47 @@ function getFilteredTasks() {
 
 
 /* =====================================================
-   11. UPDATE STATISTICS
+   22. UPDATE STATISTICS
    ===================================================== */
 
 function updateStatistics() {
+
+    /*
+     * Total number of tasks.
+     */
 
     const total =
         tasks.length;
 
 
+    /*
+     * Number of completed tasks.
+     */
+
     const completed =
         tasks.filter(
-            task => task.completed
+            task =>
+                task.completed
         ).length;
 
+
+    /*
+     * Number of active tasks.
+     */
 
     const active =
         total - completed;
 
 
+    /*
+     * Update statistics.
+     */
+
     totalTasks.textContent =
         total;
 
-
     activeTasks.textContent =
         active;
-
 
     completedTasks.textContent =
         completed;
@@ -407,7 +1291,7 @@ function updateStatistics() {
 
 
 /* =====================================================
-   12. FILTER BUTTON EVENTS
+   23. FILTER BUTTON EVENTS
    ===================================================== */
 
 filterButtons.forEach(button => {
@@ -416,32 +1300,46 @@ filterButtons.forEach(button => {
         "click",
         () => {
 
+            /*
+             * Store selected filter.
+             */
+
             currentFilter =
                 button.dataset.filter;
 
+
+            /*
+             * Remove active state
+             * from all buttons.
+             */
 
             filterButtons.forEach(btn => {
 
                 btn.classList.remove(
                     "active"
                 );
-
             });
 
 
-            button.classList.add("active");
+            /*
+             * Activate clicked button.
+             */
 
+            button.classList.add(
+                "active"
+            );
+
+
+            /*
+             * Re-render tasks.
+             */
 
             renderTasks();
-
         }
     );
-
 });
-
-
 /* =====================================================
-   13. SEARCH
+   24. SEARCH
    ===================================================== */
 
 searchInput.addEventListener(
@@ -449,28 +1347,89 @@ searchInput.addEventListener(
     event => {
 
         searchQuery =
-            event.target.value.trim();
+            event.target.value
+                .trim()
+                .toLowerCase();
 
         renderTasks();
-
     }
 );
 
 
 /* =====================================================
-   14. ADD TASK BUTTON
+   25. ADD TASK MODAL EVENTS
    ===================================================== */
 
 addTaskBtn.addEventListener(
     "click",
+    openTaskModal
+);
+
+
+closeModalBtn.addEventListener(
+    "click",
+    closeTaskModal
+);
+
+
+cancelModalBtn.addEventListener(
+    "click",
+    closeTaskModal
+);
+
+
+taskForm.addEventListener(
+    "submit",
     addTask
 );
 
 
 /* =====================================================
-   15. INITIALIZE APPLICATION
+   26. CLOSE MODAL WHEN CLICKING OUTSIDE
+   ===================================================== */
+
+taskModal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            taskModal
+        ) {
+
+            closeTaskModal();
+        }
+    }
+);
+
+
+/* =====================================================
+   27. CLOSE MODAL WITH ESCAPE
+   ===================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape" &&
+            !taskModal.hidden
+        ) {
+
+            closeTaskModal();
+        }
+    }
+);
+
+
+/* =====================================================
+   28. INITIALIZE APPLICATION
    ===================================================== */
 
 renderTasks();
 
 updateStatistics();
+
+updateGreeting();
+
+updateDate();
