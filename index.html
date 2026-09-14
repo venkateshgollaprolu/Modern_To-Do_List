@@ -2,27 +2,58 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="A modern responsive To-Do List application with task management, priorities, due dates, search, filters, and LocalStorage.">
+
+    <meta
+        name="author"
+        content="Venkatesh Gollaprolu">
 
     <title>Modern To-Do List</title>
 
-    <link rel="stylesheet" href="style.css">
+    <!-- Main Stylesheet -->
+    <link
+        rel="stylesheet"
+        href="style.css">
+
 </head>
+
 
 <body>
 
+    <!-- =================================================
+         MAIN APPLICATION
+         ================================================= -->
+
     <main class="app">
 
-        <!-- ==================== HEADER ==================== -->
+
+        <!-- =================================================
+             APPLICATION HEADER
+             ================================================= -->
+
         <header class="app-header">
 
             <div class="header-content">
 
-                <p class="greeting">Good Afternoon 👋</p>
+                <p
+                    class="greeting"
+                    id="greeting">
+                    Good Afternoon 👋
+                </p>
 
-                <h1 class="date">
-                    Monday, September 14
+                <h1
+                    class="date"
+                    id="currentDate">
+                    Monday, September 14th
                 </h1>
 
                 <p class="subtitle">
@@ -32,23 +63,80 @@
             </div>
 
 
-            <!-- ==================== STATISTICS ==================== -->
+            <!-- =================================================
+                 TASK STATISTICS
+                 ================================================= -->
 
-            <section class="statistics" aria-label="Task statistics">
+            <section
+                class="statistics"
+                aria-label="Task statistics">
+
+
+                <!-- Total Tasks -->
 
                 <div class="stat-card">
-                    <span class="stat-number" id="totalTasks">0</span>
-                    <span class="stat-label">Total</span>
+
+                    <span
+                        class="stat-number"
+                        id="totalTasks">
+                        0
+                    </span>
+
+                    <span class="stat-label">
+                        Total
+                    </span>
+
                 </div>
 
-                <div class="stat-card">
-                    <span class="stat-number" id="activeTasks">0</span>
-                    <span class="stat-label">Active</span>
-                </div>
+
+                <!-- Active Tasks -->
 
                 <div class="stat-card">
-                    <span class="stat-number" id="completedTasks">0</span>
-                    <span class="stat-label">Done</span>
+
+                    <span
+                        class="stat-number"
+                        id="activeTasks">
+                        0
+                    </span>
+
+                    <span class="stat-label">
+                        Active
+                    </span>
+
+                </div>
+
+
+                <!-- Completed Tasks -->
+
+                <div class="stat-card">
+
+                    <span
+                        class="stat-number"
+                        id="completedTasks">
+                        0
+                    </span>
+
+                    <span class="stat-label">
+                        Done
+                    </span>
+
+                </div>
+
+
+                <!-- High Priority Tasks -->
+
+                <div class="stat-card">
+
+                    <span
+                        class="stat-number"
+                        id="highPriorityTasks">
+                        0
+                    </span>
+
+                    <span class="stat-label">
+                        High Priority
+                    </span>
+
                 </div>
 
             </section>
@@ -56,18 +144,29 @@
         </header>
 
 
-        <!-- ==================== TASK SECTION ==================== -->
+        <!-- =================================================
+             TASK SECTION
+             ================================================= -->
 
         <section class="task-section">
+
+
+            <!-- =================================================
+                 SECTION HEADING + SEARCH
+                 ================================================= -->
 
             <div class="section-heading">
 
                 <div>
-                    <p class="section-label">Your productivity</p>
+
+                    <p class="section-label">
+                        Your productivity
+                    </p>
 
                     <h2>
                         My Tasks
                     </h2>
+
                 </div>
 
 
@@ -80,54 +179,92 @@
                         id="searchInput"
                         placeholder="Search tasks..."
                         aria-label="Search tasks"
-                    >
+                        autocomplete="off">
 
                 </div>
 
             </div>
 
 
-            <!-- ==================== FILTERS ==================== -->
+            <!-- =================================================
+                 TASK FILTERS
+                 ================================================= -->
 
-            <nav class="task-filters" aria-label="Task filters">
+            <nav
+                class="task-filters"
+                aria-label="Task filters">
+
+
+                <!-- All -->
 
                 <button
                     class="filter-btn active"
                     data-filter="all"
                     type="button">
+
                     All
+
                 </button>
+
+
+                <!-- Active -->
 
                 <button
                     class="filter-btn"
                     data-filter="active"
                     type="button">
+
                     Active
+
                 </button>
+
+
+                <!-- Completed -->
 
                 <button
                     class="filter-btn"
                     data-filter="completed"
                     type="button">
+
                     Completed
+
+                </button>
+
+
+                <!-- High Priority -->
+
+                <button
+                    class="filter-btn"
+                    data-filter="high"
+                    type="button">
+
+                    High Priority
+
                 </button>
 
             </nav>
 
 
-            <!-- ==================== TASK LIST ==================== -->
+            <!-- =================================================
+                 TASK LIST
+                 ================================================= -->
 
             <div
                 class="task-list"
                 id="taskList"
                 aria-live="polite">
 
-                <!-- Tasks will be generated by JavaScript -->
+                <!--
+                    Tasks are dynamically generated
+                    by script.js.
+                -->
 
             </div>
 
 
-            <!-- Empty State -->
+            <!-- =================================================
+                 EMPTY STATE
+                 ================================================= -->
 
             <div
                 class="empty-state"
@@ -138,7 +275,9 @@
                     ✓
                 </div>
 
-                <h3>No tasks found</h3>
+                <h3>
+                    No tasks found
+                </h3>
 
                 <p>
                     Add a task to start being productive.
@@ -147,16 +286,40 @@
             </div>
 
 
-            <!-- ==================== ADD TASK BUTTON ==================== -->
+            <!-- =================================================
+                 TASK MANAGEMENT
+                 ================================================= -->
+
+            <div class="task-management">
+
+                <button
+                    class="clear-completed-btn"
+                    id="clearCompletedBtn"
+                    type="button">
+
+                    Clear Completed
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADD TASK BUTTON
+                 ================================================= -->
 
             <button
                 class="add-task-btn"
                 id="addTaskBtn"
                 type="button">
 
-                <span class="add-icon">+</span>
+                <span class="add-icon">
+                    +
+                </span>
 
-                <span>Add New Task</span>
+                <span>
+                    Add New Task
+                </span>
 
             </button>
 
@@ -165,9 +328,223 @@
     </main>
 
 
-    <!-- JavaScript -->
+    <!-- =====================================================
+         ADD / EDIT TASK MODAL
+         ===================================================== -->
 
-    <script src="script.js"></script>
+    <div
+        class="modal-overlay"
+        id="taskModal"
+        hidden>
+
+
+        <div
+            class="task-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modalTitle">
+
+
+            <!-- =================================================
+                 MODAL HEADER
+                 ================================================= -->
+
+            <div class="modal-header">
+
+                <div>
+
+                    <p class="modal-label">
+                        Stay productive
+                    </p>
+
+                    <h2 id="modalTitle">
+                        Add New Task
+                    </h2>
+
+                </div>
+
+
+                <!-- Close -->
+
+                <button
+                    class="close-modal"
+                    id="closeModalBtn"
+                    type="button"
+                    aria-label="Close task dialog">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 TASK FORM
+                 ================================================= -->
+
+            <form id="taskForm">
+
+
+                <!-- =================================================
+                     TASK TITLE
+                     ================================================= -->
+
+                <div class="form-group">
+
+                    <label for="taskInput">
+                        Task title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="taskInput"
+                        name="task"
+                        placeholder="What do you need to accomplish?"
+                        maxlength="100"
+                        autocomplete="off"
+                        required>
+
+                    <p class="input-hint">
+                        Keep it short and actionable.
+                    </p>
+
+                </div>
+
+
+                <!-- =================================================
+                     PRIORITY
+                     ================================================= -->
+
+                <div class="form-group">
+
+                    <label>
+                        Priority
+                    </label>
+
+
+                    <div
+                        class="priority-options"
+                        role="radiogroup"
+                        aria-label="Task priority">
+
+
+                        <!-- Low -->
+
+                        <label class="priority-option">
+
+                            <input
+                                type="radio"
+                                name="priority"
+                                value="low">
+
+                            <span>
+                                Low
+                            </span>
+
+                        </label>
+
+
+                        <!-- Medium -->
+
+                        <label class="priority-option">
+
+                            <input
+                                type="radio"
+                                name="priority"
+                                value="medium"
+                                checked>
+
+                            <span>
+                                Medium
+                            </span>
+
+                        </label>
+
+
+                        <!-- High -->
+
+                        <label class="priority-option">
+
+                            <input
+                                type="radio"
+                                name="priority"
+                                value="high">
+
+                            <span>
+                                High
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     DUE DATE
+                     ================================================= -->
+
+                <div class="form-group">
+
+                    <label for="dueDateInput">
+                        Due date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dueDateInput"
+                        name="dueDate">
+
+                </div>
+
+
+                <!-- =================================================
+                     FORM ACTIONS
+                     ================================================= -->
+
+                <div class="modal-actions">
+
+
+                    <!-- Cancel -->
+
+                    <button
+                        class="cancel-btn"
+                        id="cancelModalBtn"
+                        type="button">
+
+                        Cancel
+
+                    </button>
+
+
+                    <!-- Submit -->
+
+                    <button
+                        class="submit-task-btn"
+                        type="submit">
+
+                        Add Task
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        src="script.js">
+    </script>
 
 </body>
 
