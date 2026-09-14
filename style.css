@@ -1,7 +1,856 @@
-/* Modern To-Do List
-   Main stylesheet
-*/
+/* =====================================================
+   MODERN TO-DO LIST
+   Main Stylesheet
+   ===================================================== */
+
+
+/* =====================================================
+   1. RESET & GLOBAL STYLES
+   ===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
 
 body {
-    margin: 0;
+    min-height: 100vh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    background: #eef5fa;
+
+    color: #252936;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px 20px;
+}
+
+
+/* =====================================================
+   2. MAIN APPLICATION
+   ===================================================== */
+
+.app {
+    width: 100%;
+    max-width: 850px;
+
+    background: #ffffff;
+
+    border-radius: 28px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 60px rgba(40, 50, 80, 0.15);
+}
+
+
+/* =====================================================
+   3. HEADER
+   ===================================================== */
+
+.app-header {
+    position: relative;
+
+    padding: 45px 45px 40px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7138d4 0%,
+            #5354d9 50%,
+            #27a9dc 100%
+        );
+
+    overflow: hidden;
+}
+
+
+/* Decorative background shape */
+
+.app-header::before {
+    content: "";
+
+    position: absolute;
+
+    width: 280px;
+    height: 280px;
+
+    top: -150px;
+    right: -80px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border-radius: 50%;
+}
+
+
+/* Another decorative shape */
+
+.app-header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    bottom: -150px;
+    left: -70px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border-radius: 50%;
+}
+
+
+/* =====================================================
+   4. HEADER CONTENT
+   ===================================================== */
+
+.header-content {
+    position: relative;
+
+    z-index: 2;
+
+    text-align: center;
+}
+
+.greeting {
+    font-size: 16px;
+
+    font-weight: 500;
+
+    opacity: 0.9;
+
+    margin-bottom: 8px;
+}
+
+.date {
+    font-size: clamp(28px, 5vw, 42px);
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    letter-spacing: -1px;
+
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 15px;
+
+    opacity: 0.85;
+}
+
+
+/* =====================================================
+   5. STATISTICS
+   ===================================================== */
+
+.statistics {
+    position: relative;
+
+    z-index: 2;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-top: 35px;
+}
+
+.stat-card {
+    padding: 18px 10px;
+
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.13);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 16px;
+
+    backdrop-filter: blur(10px);
+
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.stat-number {
+    display: block;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    display: block;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    opacity: 0.8;
+}
+
+
+/* =====================================================
+   6. TASK SECTION
+   ===================================================== */
+
+.task-section {
+    padding: 40px 45px 45px;
+}
+
+
+/* =====================================================
+   7. SECTION HEADING
+   ===================================================== */
+
+.section-heading {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 25px;
+}
+
+.section-label {
+    color: #8b8f9d;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+}
+
+.section-heading h2 {
+    font-size: 27px;
+
+    line-height: 1.2;
+
+    color: #272a35;
+}
+
+
+/* =====================================================
+   8. SEARCH BOX
+   ===================================================== */
+
+.search-box {
+    width: 230px;
+}
+
+.search-box input {
+    width: 100%;
+
+    padding: 12px 16px;
+
+    border: 1px solid #e4e6ec;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background: #f8f9fc;
+
+    color: #252936;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.search-box input::placeholder {
+    color: #a1a5b1;
+}
+
+.search-box input:focus {
+    background: #ffffff;
+
+    border-color: #7650d7;
+
+    box-shadow:
+        0 0 0 3px rgba(118, 80, 215, 0.1);
+}
+
+
+/* =====================================================
+   9. FILTER BUTTONS
+   ===================================================== */
+
+.task-filters {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 22px;
+}
+
+.filter-btn {
+    border: none;
+
+    background: transparent;
+
+    color: #8b8f9d;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    padding: 9px 15px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.filter-btn:hover {
+    color: #6841c6;
+
+    background: #f3effd;
+}
+
+.filter-btn.active {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #783ed3,
+            #4e8ddd
+        );
+
+    box-shadow:
+        0 5px 15px rgba(100, 70, 200, 0.18);
+}
+
+
+/* =====================================================
+   10. TASK LIST
+   ===================================================== */
+
+.task-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    min-height: 50px;
+}
+
+
+/* =====================================================
+   11. TASK ITEM
+   ===================================================== */
+
+.task-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 15px 16px;
+
+    background: #fafbfc;
+
+    border: 1px solid #eef0f4;
+
+    border-radius: 14px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.task-item:hover {
+    transform: translateY(-1px);
+
+    border-color: #e0d9f5;
+
+    box-shadow:
+        0 6px 20px rgba(40, 50, 80, 0.07);
+}
+
+
+/* =====================================================
+   12. TASK CHECKBOX
+   ===================================================== */
+
+.task-checkbox {
+    width: 22px;
+    height: 22px;
+
+    flex-shrink: 0;
+
+    border: 2px solid #7a7e89;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.task-checkbox:hover {
+    border-color: #7146cc;
+
+    transform: scale(1.05);
+}
+
+
+/* =====================================================
+   13. COMPLETED CHECKBOX
+   ===================================================== */
+
+.task-item.completed .task-checkbox {
+    border-color: #7044cc;
+
+    background:
+        linear-gradient(
+            135deg,
+            #783ed3,
+            #4c8ddd
+        );
+}
+
+.task-checkbox::after {
+    content: "✓";
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    opacity: 0;
+
+    transform: scale(0.5);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.task-item.completed .task-checkbox::after {
+    opacity: 1;
+
+    transform: scale(1);
+}
+
+
+/* =====================================================
+   14. TASK TEXT
+   ===================================================== */
+
+.task-text {
+    flex: 1;
+
+    min-width: 0;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    color: #343742;
+
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+
+    transition:
+        color 0.2s ease,
+        text-decoration 0.2s ease;
+}
+
+.task-item.completed .task-text {
+    color: #a3a6af;
+
+    text-decoration: line-through;
+}
+
+
+/* =====================================================
+   15. DELETE BUTTON
+   ===================================================== */
+
+.delete-task {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #a1a4ad;
+
+    font-size: 19px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.delete-task:hover {
+    color: #e05252;
+
+    background: #fff0f0;
+
+    transform: scale(1.05);
+}
+
+
+/* =====================================================
+   16. EMPTY STATE
+   ===================================================== */
+
+.empty-state {
+    text-align: center;
+
+    padding: 35px 20px;
+
+    color: #858995;
+}
+
+.empty-icon {
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 15px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #f2edfc;
+
+    color: #7044cc;
+
+    font-size: 24px;
+
+    font-weight: 700;
+}
+
+.empty-state h3 {
+    font-size: 17px;
+
+    color: #424550;
+
+    margin-bottom: 6px;
+}
+
+.empty-state p {
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   17. ADD TASK BUTTON
+   ===================================================== */
+
+.add-task-btn {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 16px 22px;
+
+    border: none;
+
+    border-radius: 15px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #783ed3,
+            #4e9cdb
+        );
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    box-shadow:
+        0 8px 20px rgba(100, 70, 200, 0.2);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.add-task-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(100, 70, 200, 0.28);
+}
+
+.add-task-btn:active {
+    transform: translateY(0);
+}
+
+.add-icon {
+    font-size: 22px;
+
+    font-weight: 400;
+
+    line-height: 1;
+}
+
+
+/* =====================================================
+   18. FOCUS ACCESSIBILITY
+   ===================================================== */
+
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(90, 75, 210, 0.25);
+
+    outline-offset: 2px;
+}
+
+
+/* =====================================================
+   19. RESPONSIVE DESIGN — TABLET
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 20px 15px;
+
+        align-items: flex-start;
+    }
+
+    .app {
+        border-radius: 22px;
+
+        margin-top: 15px;
+    }
+
+    .app-header {
+        padding: 35px 25px 30px;
+    }
+
+    .task-section {
+        padding: 30px 25px 35px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+}
+
+
+/* =====================================================
+   20. RESPONSIVE DESIGN — MOBILE
+   ===================================================== */
+
+@media (max-width: 480px) {
+
+    body {
+        padding: 0;
+    }
+
+    .app {
+        min-height: 100vh;
+
+        border-radius: 0;
+
+        margin: 0;
+    }
+
+    .app-header {
+        padding: 35px 20px 25px;
+    }
+
+    .greeting {
+        font-size: 14px;
+    }
+
+    .date {
+        font-size: 28px;
+
+        letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    .statistics {
+        gap: 8px;
+
+        margin-top: 28px;
+    }
+
+    .stat-card {
+        padding: 15px 5px;
+
+        border-radius: 12px;
+    }
+
+    .stat-number {
+        font-size: 23px;
+    }
+
+    .stat-label {
+        font-size: 9px;
+
+        letter-spacing: 0.7px;
+    }
+
+    .task-section {
+        padding: 28px 20px 30px;
+    }
+
+    .section-heading h2 {
+        font-size: 24px;
+    }
+
+    .task-filters {
+        overflow-x: auto;
+
+        scrollbar-width: none;
+    }
+
+    .task-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    .filter-btn {
+        flex-shrink: 0;
+    }
+
+    .task-item {
+        padding: 13px 12px;
+
+        gap: 11px;
+    }
+
+    .task-text {
+        font-size: 14px;
+    }
+
+    .delete-task {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+/* =====================================================
+   21. REDUCED MOTION
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+
+        transition-duration: 0.01ms !important;
+    }
 }
