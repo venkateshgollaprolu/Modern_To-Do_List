@@ -1,11 +1,12 @@
 /* =====================================================
    MODERN TO-DO LIST
-   Main Stylesheet
+   Complete Stylesheet
+   Final Version - Steps 1 to 12
    ===================================================== */
 
 
 /* =====================================================
-   1. RESET & GLOBAL STYLES
+   1. GLOBAL RESET
    ===================================================== */
 
 * {
@@ -14,12 +15,55 @@
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
+
+/* =====================================================
+   2. ROOT VARIABLES
+   ===================================================== */
+
+:root {
+
+    --primary-purple: #7138d4;
+    --primary-blue: #5354d9;
+    --accent-blue: #27a9dc;
+
+    --button-purple: #783ed3;
+    --button-blue: #4e9cdb;
+
+    --text-dark: #292b35;
+    --text-medium: #666a78;
+    --text-light: #8b8f9d;
+
+    --border: #e7e8ed;
+
+    --background: #f4f5f8;
+    --card-background: #ffffff;
+
+    --success: #4e8a69;
+    --danger: #e05252;
+
+    --shadow:
+        0 20px 60px rgba(40, 43, 60, 0.10);
+
+    --radius-large: 24px;
+    --radius-medium: 14px;
+    --radius-small: 10px;
 }
 
+
+/* =====================================================
+   3. BODY
+   ===================================================== */
+
 body {
+
     min-height: 100vh;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f6f7fb 0%,
+            #eef1f8 100%
+        );
 
     font-family:
         -apple-system,
@@ -30,273 +74,314 @@ body {
         Arial,
         sans-serif;
 
-    background: #eef5fa;
+    color: var(--text-dark);
 
-    color: #252936;
+    padding: 40px 20px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 30px 20px;
+    -webkit-font-smoothing: antialiased;
 }
 
 
 /* =====================================================
-   2. MAIN APPLICATION
+   4. MAIN APPLICATION
    ===================================================== */
 
 .app {
+
     width: 100%;
-    max-width: 850px;
 
-    background: #ffffff;
+    max-width: 960px;
 
-    border-radius: 28px;
+    margin: 0 auto;
 
-    overflow: hidden;
+    background:
+        var(--card-background);
+
+    border-radius:
+        var(--radius-large);
 
     box-shadow:
-        0 25px 60px rgba(40, 50, 80, 0.15);
+        var(--shadow);
+
+    overflow: hidden;
 }
 
 
 /* =====================================================
-   3. HEADER
+   5. APPLICATION HEADER
    ===================================================== */
 
 .app-header {
+
     position: relative;
 
-    padding: 45px 45px 40px;
+    padding: 42px 44px 36px;
 
     color: #ffffff;
 
     background:
         linear-gradient(
             135deg,
-            #7138d4 0%,
-            #5354d9 50%,
-            #27a9dc 100%
+            var(--primary-purple) 0%,
+            var(--primary-blue) 55%,
+            var(--accent-blue) 100%
         );
 
     overflow: hidden;
 }
 
 
-/* Decorative background shape */
-
-.app-header::before {
-    content: "";
-
-    position: absolute;
-
-    width: 280px;
-    height: 280px;
-
-    top: -150px;
-    right: -80px;
-
-    background: rgba(255, 255, 255, 0.08);
-
-    border-radius: 50%;
-}
-
-
-/* Another decorative shape */
+/*
+ * Decorative background shape.
+ */
 
 .app-header::after {
+
     content: "";
 
     position: absolute;
 
-    width: 220px;
-    height: 220px;
+    width: 260px;
 
-    bottom: -150px;
-    left: -70px;
+    height: 260px;
 
-    background: rgba(255, 255, 255, 0.06);
+    right: -100px;
+
+    top: -120px;
 
     border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.10);
+
+    pointer-events: none;
 }
 
 
 /* =====================================================
-   4. HEADER CONTENT
+   6. HEADER CONTENT
    ===================================================== */
 
 .header-content {
+
     position: relative;
 
-    z-index: 2;
+    z-index: 1;
 
-    text-align: center;
+    margin-bottom: 30px;
 }
 
+
 .greeting {
-    font-size: 16px;
 
-    font-weight: 500;
+    font-size: 14px;
 
-    opacity: 0.9;
+    font-weight: 600;
+
+    letter-spacing: 0.2px;
+
+    margin-bottom: 8px;
+
+    opacity: 0.90;
+}
+
+
+.date {
+
+    font-size: 32px;
+
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: -0.8px;
 
     margin-bottom: 8px;
 }
 
-.date {
-    font-size: clamp(28px, 5vw, 42px);
-
-    font-weight: 700;
-
-    line-height: 1.2;
-
-    letter-spacing: -1px;
-
-    margin-bottom: 10px;
-}
 
 .subtitle {
-    font-size: 15px;
 
-    opacity: 0.85;
+    font-size: 14px;
+
+    opacity: 0.80;
 }
 
 
 /* =====================================================
-   5. STATISTICS
+   7. STATISTICS
    ===================================================== */
 
 .statistics {
+
     position: relative;
 
-    z-index: 2;
+    z-index: 1;
 
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(4, 1fr);
 
-    gap: 15px;
-
-    margin-top: 35px;
+    gap: 12px;
 }
 
+
 .stat-card {
-    padding: 18px 10px;
+
+    padding: 15px 12px;
 
     text-align: center;
 
-    background: rgba(255, 255, 255, 0.13);
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.20);
 
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 13px;
 
-    border-radius: 16px;
+    background:
+        rgba(255, 255, 255, 0.12);
 
-    backdrop-filter: blur(10px);
+    backdrop-filter:
+        blur(10px);
 
-    -webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter:
+        blur(10px);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
 }
+
+
+.stat-card:hover {
+
+    transform:
+        translateY(-2px);
+
+    background:
+        rgba(255, 255, 255, 0.17);
+}
+
 
 .stat-number {
+
     display: block;
 
-    font-size: 28px;
+    font-size: 23px;
 
-    font-weight: 700;
-
-    line-height: 1;
-
-    margin-bottom: 8px;
-}
-
-.stat-label {
-    display: block;
-
-    font-size: 11px;
-
-    font-weight: 600;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-    opacity: 0.8;
-}
-
-
-/* =====================================================
-   6. TASK SECTION
-   ===================================================== */
-
-.task-section {
-    padding: 40px 45px 45px;
-}
-
-
-/* =====================================================
-   7. SECTION HEADING
-   ===================================================== */
-
-.section-heading {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 25px;
-
-    margin-bottom: 25px;
-}
-
-.section-label {
-    color: #8b8f9d;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 5px;
-}
-
-.section-heading h2 {
-    font-size: 27px;
+    font-weight: 750;
 
     line-height: 1.2;
 
-    color: #272a35;
+    margin-bottom: 3px;
+}
+
+
+.stat-label {
+
+    display: block;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+    opacity: 0.78;
 }
 
 
 /* =====================================================
-   8. SEARCH BOX
+   8. TASK SECTION
+   ===================================================== */
+
+.task-section {
+
+    padding: 34px 44px 40px;
+}
+
+
+/* =====================================================
+   9. SECTION HEADING
+   ===================================================== */
+
+.section-heading {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+}
+
+
+.section-label {
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    color: var(--primary-purple);
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.8px;
+
+    margin-bottom: 4px;
+}
+
+
+.section-heading h2 {
+
+    font-size: 24px;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.4px;
+}
+
+
+/* =====================================================
+   10. SEARCH BOX
    ===================================================== */
 
 .search-box {
-    width: 230px;
+
+    width: 240px;
 }
 
+
 .search-box input {
+
     width: 100%;
 
-    padding: 12px 16px;
+    height: 42px;
 
-    border: 1px solid #e4e6ec;
+    padding:
+        0 14px;
 
-    border-radius: 12px;
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        var(--radius-small);
+
+    background: #fafbfc;
+
+    color:
+        var(--text-dark);
+
+    font-size: 13px;
 
     outline: none;
-
-    background: #f8f9fc;
-
-    color: #252936;
-
-    font-size: 14px;
 
     transition:
         border-color 0.2s ease,
@@ -304,48 +389,75 @@ body {
         background 0.2s ease;
 }
 
+
 .search-box input::placeholder {
-    color: #a1a5b1;
+
+    color:
+        #a4a7b1;
 }
 
-.search-box input:focus {
-    background: #ffffff;
 
-    border-color: #7650d7;
+.search-box input:focus {
+
+    background:
+        #ffffff;
+
+    border-color:
+        #9b7cda;
 
     box-shadow:
-        0 0 0 3px rgba(118, 80, 215, 0.1);
+        0 0 0 3px
+        rgba(113, 56, 212, 0.10);
 }
 
 
 /* =====================================================
-   9. FILTER BUTTONS
+   11. TASK FILTERS
    ===================================================== */
 
 .task-filters {
+
     display: flex;
 
     align-items: center;
 
-    gap: 8px;
+    gap: 7px;
 
-    margin-bottom: 22px;
+    margin-bottom: 20px;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
 }
 
+
+.task-filters::-webkit-scrollbar {
+
+    display: none;
+}
+
+
 .filter-btn {
+
+    flex-shrink: 0;
+
     border: none;
 
-    background: transparent;
+    background:
+        #f3f4f7;
 
-    color: #8b8f9d;
+    color:
+        #777b87;
 
-    font-size: 13px;
+    padding:
+        8px 14px;
 
-    font-weight: 600;
+    border-radius:
+        9px;
 
-    padding: 9px 15px;
+    font-size: 12px;
 
-    border-radius: 10px;
+    font-weight: 650;
 
     cursor: pointer;
 
@@ -355,100 +467,121 @@ body {
         transform 0.2s ease;
 }
 
-.filter-btn:hover {
-    color: #6841c6;
 
-    background: #f3effd;
+.filter-btn:hover {
+
+    color:
+        var(--primary-purple);
+
+    background:
+        #f0edf8;
 }
 
+
 .filter-btn.active {
+
     color: #ffffff;
 
     background:
         linear-gradient(
             135deg,
-            #783ed3,
-            #4e8ddd
+            var(--button-purple),
+            var(--button-blue)
         );
 
     box-shadow:
-        0 5px 15px rgba(100, 70, 200, 0.18);
+        0 4px 12px
+        rgba(112, 68, 204, 0.20);
 }
 
 
 /* =====================================================
-   10. TASK LIST
+   12. TASK LIST
    ===================================================== */
 
 .task-list {
+
     display: flex;
 
     flex-direction: column;
 
-    gap: 10px;
-
-    min-height: 50px;
+    gap: 9px;
 }
 
 
 /* =====================================================
-   11. TASK ITEM
+   13. TASK ITEM
    ===================================================== */
 
 .task-item {
+
     display: flex;
 
     align-items: center;
 
-    gap: 14px;
+    gap: 12px;
 
-    padding: 15px 16px;
+    min-height: 68px;
 
-    background: #fafbfc;
+    padding:
+        12px 14px;
 
-    border: 1px solid #eef0f4;
+    border:
+        1px solid
+        var(--border);
 
-    border-radius: 14px;
+    border-radius:
+        var(--radius-medium);
+
+    background:
+        #ffffff;
 
     transition:
-        transform 0.2s ease,
+        border-color 0.2s ease,
         box-shadow 0.2s ease,
-        border-color 0.2s ease;
+        transform 0.2s ease,
+        background 0.2s ease;
 }
 
-.task-item:hover {
-    transform: translateY(-1px);
 
-    border-color: #e0d9f5;
+.task-item:hover {
+
+    border-color:
+        #dcdde5;
 
     box-shadow:
-        0 6px 20px rgba(40, 50, 80, 0.07);
+        0 7px 20px
+        rgba(35, 39, 55, 0.06);
+
+    transform:
+        translateY(-1px);
 }
 
 
 /* =====================================================
-   12. TASK CHECKBOX
+   14. TASK CHECKBOX
    ===================================================== */
 
 .task-checkbox {
-    width: 22px;
-    height: 22px;
+
+    position: relative;
 
     flex-shrink: 0;
 
-    border: 2px solid #7a7e89;
+    width: 23px;
+
+    height: 23px;
+
+    border:
+        2px solid
+        #d0d2da;
 
     border-radius: 50%;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 
     cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
 
     transition:
         background 0.2s ease,
@@ -456,103 +589,270 @@ body {
         transform 0.2s ease;
 }
 
-.task-checkbox:hover {
-    border-color: #7146cc;
 
-    transform: scale(1.05);
+.task-checkbox:hover {
+
+    border-color:
+        #8060ce;
+
+    transform:
+        scale(1.05);
 }
 
 
-/* =====================================================
-   13. COMPLETED CHECKBOX
-   ===================================================== */
+/*
+ * Completed checkbox.
+ */
 
 .task-item.completed .task-checkbox {
-    border-color: #7044cc;
+
+    border-color:
+        var(--primary-purple);
 
     background:
-        linear-gradient(
-            135deg,
-            #783ed3,
-            #4c8ddd
-        );
+        var(--primary-purple);
 }
 
-.task-checkbox::after {
+
+.task-item.completed .task-checkbox::after {
+
     content: "✓";
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -53%);
 
     color: #ffffff;
 
     font-size: 13px;
 
-    font-weight: 700;
-
-    opacity: 0;
-
-    transform: scale(0.5);
-
-    transition:
-        opacity 0.2s ease,
-        transform 0.2s ease;
-}
-
-.task-item.completed .task-checkbox::after {
-    opacity: 1;
-
-    transform: scale(1);
+    font-weight: 800;
 }
 
 
 /* =====================================================
-   14. TASK TEXT
+   15. TASK CONTENT
    ===================================================== */
 
-.task-text {
+.task-content {
+
     flex: 1;
 
     min-width: 0;
+}
 
-    font-size: 15px;
 
-    font-weight: 500;
+.task-text {
 
-    color: #343742;
+    display: block;
+
+    color:
+        var(--text-dark);
+
+    font-size: 14px;
+
+    font-weight: 600;
 
     line-height: 1.4;
 
-    overflow-wrap: anywhere;
+    word-break: break-word;
 
     transition:
         color 0.2s ease,
         text-decoration 0.2s ease;
 }
 
-.task-item.completed .task-text {
-    color: #a3a6af;
 
-    text-decoration: line-through;
+/*
+ * Completed task title.
+ */
+
+.task-item.completed .task-text {
+
+    color:
+        #a1a4ad;
+
+    text-decoration:
+        line-through;
 }
 
 
 /* =====================================================
-   15. DELETE BUTTON
+   16. TASK META
    ===================================================== */
 
-.delete-task {
-    width: 32px;
-    height: 32px;
+.task-meta {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 5px;
+}
+
+
+/* =====================================================
+   17. PRIORITY BADGES
+   ===================================================== */
+
+.task-priority,
+.task-due-date {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    padding:
+        3px 7px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+
+    font-weight: 650;
+
+    line-height: 1.2;
+}
+
+
+/* Low */
+
+.task-priority.low {
+
+    background:
+        #eef5f1;
+
+    color:
+        #4e8a69;
+}
+
+
+/* Medium */
+
+.task-priority.medium {
+
+    background:
+        #f5f1e8;
+
+    color:
+        #9a7938;
+}
+
+
+/* High */
+
+.task-priority.high {
+
+    background:
+        #fbeeee;
+
+    color:
+        #c25252;
+}
+
+
+/* =====================================================
+   18. DUE DATE BADGES
+   ===================================================== */
+
+.task-due-date {
+
+    background:
+        #f1f2f5;
+
+    color:
+        #777b87;
+}
+
+
+/* Today */
+
+.task-due-date.today {
+
+    background:
+        #fdf1e6;
+
+    color:
+        #b66a28;
+}
+
+
+/* Tomorrow */
+
+.task-due-date.tomorrow {
+
+    background:
+        #f0eefb;
+
+    color:
+        #6c55a9;
+}
+
+
+/* Overdue */
+
+.task-due-date.overdue {
+
+    background:
+        #fbeaea;
+
+    color:
+        #c04d4d;
+}
+
+
+/* Upcoming */
+
+.task-due-date.upcoming {
+
+    background:
+        #f1f2f5;
+
+    color:
+        #777b87;
+}
+
+
+/* =====================================================
+   19. TASK ACTIONS
+   ===================================================== */
+
+.task-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
 
     flex-shrink: 0;
+}
+
+
+.edit-task,
+.delete-task {
+
+    width: 32px;
+
+    height: 32px;
 
     border: none;
 
     border-radius: 9px;
 
-    background: transparent;
-
-    color: #a1a4ad;
-
-    font-size: 19px;
+    background:
+        transparent;
 
     cursor: pointer;
 
@@ -568,34 +868,140 @@ body {
         transform 0.2s ease;
 }
 
+
+/* Edit */
+
+.edit-task {
+
+    color:
+        #8b8f9d;
+
+    font-size: 17px;
+}
+
+
+.edit-task:hover {
+
+    color:
+        #7044cc;
+
+    background:
+        #f2edfc;
+
+    transform:
+        scale(1.05);
+}
+
+
+/* Delete */
+
+.delete-task {
+
+    color:
+        #a1a4ad;
+
+    font-size: 19px;
+}
+
+
 .delete-task:hover {
-    color: #e05252;
 
-    background: #fff0f0;
+    color:
+        var(--danger);
 
-    transform: scale(1.05);
+    background:
+        #fff0f0;
+
+    transform:
+        scale(1.05);
 }
 
 
 /* =====================================================
-   16. EMPTY STATE
+   20. TASK MANAGEMENT
+   ===================================================== */
+
+.task-management {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 14px;
+}
+
+
+.clear-completed-btn {
+
+    border: none;
+
+    background:
+        transparent;
+
+    color:
+        #8b8f9d;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    padding:
+        7px 10px;
+
+    border-radius: 8px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.clear-completed-btn:hover {
+
+    background:
+        #f5f1fc;
+
+    color:
+        #7044cc;
+}
+
+
+/* =====================================================
+   21. EMPTY STATE
    ===================================================== */
 
 .empty-state {
+
+    padding:
+        42px 20px;
+
     text-align: center;
 
-    padding: 35px 20px;
+    color:
+        var(--text-light);
 
-    color: #858995;
+    border:
+        1px dashed
+        #dfe1e7;
+
+    border-radius:
+        var(--radius-medium);
+
+    background:
+        #fafbfc;
 }
 
+
 .empty-icon {
-    width: 55px;
-    height: 55px;
 
-    margin: 0 auto 15px;
+    width: 46px;
 
-    border-radius: 50%;
+    height: 46px;
+
+    margin:
+        0 auto 12px;
 
     display: flex;
 
@@ -603,55 +1009,66 @@ body {
 
     justify-content: center;
 
-    background: #f2edfc;
+    border-radius: 50%;
 
-    color: #7044cc;
+    background:
+        #f0edf8;
 
-    font-size: 24px;
+    color:
+        var(--primary-purple);
 
-    font-weight: 700;
+    font-size: 20px;
+
+    font-weight: 800;
 }
+
 
 .empty-state h3 {
-    font-size: 17px;
 
-    color: #424550;
+    color:
+        #555966;
 
-    margin-bottom: 6px;
+    font-size: 15px;
+
+    margin-bottom: 5px;
 }
 
+
 .empty-state p {
-    font-size: 13px;
+
+    font-size: 12px;
 }
 
 
 /* =====================================================
-   17. ADD TASK BUTTON
+   22. ADD TASK BUTTON
    ===================================================== */
 
 .add-task-btn {
+
     width: 100%;
 
-    margin-top: 25px;
+    min-height: 50px;
 
-    padding: 16px 22px;
+    margin-top: 18px;
 
     border: none;
 
-    border-radius: 15px;
-
-    color: #ffffff;
+    border-radius:
+        var(--radius-medium);
 
     background:
         linear-gradient(
             135deg,
-            #783ed3,
-            #4e9cdb
+            var(--button-purple),
+            var(--button-blue)
         );
 
-    font-size: 15px;
+    color: #ffffff;
 
-    font-weight: 600;
+    font-size: 14px;
+
+    font-weight: 700;
 
     cursor: pointer;
 
@@ -661,196 +1078,924 @@ body {
 
     justify-content: center;
 
-    gap: 9px;
+    gap: 8px;
 
     box-shadow:
-        0 8px 20px rgba(100, 70, 200, 0.2);
+        0 8px 20px
+        rgba(91, 75, 200, 0.20);
 
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
 }
+
 
 .add-task-btn:hover {
-    transform: translateY(-2px);
+
+    transform:
+        translateY(-2px);
 
     box-shadow:
-        0 12px 25px rgba(100, 70, 200, 0.28);
+        0 12px 26px
+        rgba(91, 75, 200, 0.25);
+
+    filter:
+        brightness(1.03);
 }
+
 
 .add-task-btn:active {
-    transform: translateY(0);
+
+    transform:
+        translateY(0);
 }
 
-.add-icon {
-    font-size: 22px;
 
-    font-weight: 400;
+.add-icon {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 20px;
+
+    height: 20px;
+
+    font-size: 20px;
 
     line-height: 1;
 }
 
 
 /* =====================================================
-   18. FOCUS ACCESSIBILITY
+   23. MODAL OVERLAY
    ===================================================== */
 
-button:focus-visible,
-input:focus-visible {
-    outline: 3px solid rgba(90, 75, 210, 0.25);
+.modal-overlay {
 
-    outline-offset: 2px;
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(25, 27, 38, 0.52);
+
+    backdrop-filter:
+        blur(5px);
+
+    -webkit-backdrop-filter:
+        blur(5px);
+
+    animation:
+        fadeIn 0.2s ease;
+}
+
+
+/*
+ * Hidden modal.
+ */
+
+.modal-overlay[hidden] {
+
+    display: none;
 }
 
 
 /* =====================================================
-   19. RESPONSIVE DESIGN — TABLET
+   24. MODAL
+   ===================================================== */
+
+.task-modal {
+
+    width: 100%;
+
+    max-width: 470px;
+
+    max-height: calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    padding: 28px;
+
+    border-radius:
+        20px;
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 25px 80px
+        rgba(20, 22, 35, 0.25);
+
+    animation:
+        modalSlideIn 0.25s ease;
+}
+
+
+/* =====================================================
+   25. MODAL HEADER
+   ===================================================== */
+
+.modal-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 24px;
+}
+
+
+.modal-label {
+
+    color:
+        var(--primary-purple);
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.8px;
+
+    margin-bottom: 4px;
+}
+
+
+.modal-header h2 {
+
+    font-size: 23px;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.4px;
+}
+
+
+/* =====================================================
+   26. CLOSE MODAL BUTTON
+   ===================================================== */
+
+.close-modal {
+
+    width: 34px;
+
+    height: 34px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background:
+        #f3f4f7;
+
+    color:
+        #777b87;
+
+    font-size: 23px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.close-modal:hover {
+
+    background:
+        #fbeeee;
+
+    color:
+        var(--danger);
+
+    transform:
+        rotate(3deg);
+}
+
+
+/* =====================================================
+   27. FORM GROUP
+   ===================================================== */
+
+.form-group {
+
+    margin-bottom: 19px;
+}
+
+
+.form-group > label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color:
+        #4f5360;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   28. TASK INPUT
+   ===================================================== */
+
+#taskInput,
+#dueDateInput {
+
+    width: 100%;
+
+    height: 44px;
+
+    padding:
+        0 13px;
+
+    border:
+        1px solid
+        #dfe1e7;
+
+    border-radius:
+        10px;
+
+    background:
+        #fafbfc;
+
+    color:
+        var(--text-dark);
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+#taskInput:focus,
+#dueDateInput:focus {
+
+    background:
+        #ffffff;
+
+    border-color:
+        #9273d2;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(113, 56, 212, 0.10);
+}
+
+
+.input-hint {
+
+    margin-top: 6px;
+
+    color:
+        #a0a3ad;
+
+    font-size: 10px;
+}
+
+
+/* =====================================================
+   29. PRIORITY OPTIONS
+   ===================================================== */
+
+.priority-options {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 8px;
+}
+
+
+.priority-option {
+
+    position: relative;
+
+    cursor: pointer;
+}
+
+
+.priority-option input {
+
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+.priority-option span {
+
+    display: block;
+
+    padding:
+        11px 10px;
+
+    border:
+        1px solid
+        #e1e3e9;
+
+    border-radius:
+        10px;
+
+    background:
+        #f9fafc;
+
+    color:
+        #777b87;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-align: center;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.priority-option:hover span {
+
+    border-color:
+        #cfc5e9;
+
+    transform:
+        translateY(-1px);
+}
+
+
+.priority-option input:checked + span {
+
+    border-color:
+        #7650d7;
+
+    background:
+        #f2edfc;
+
+    color:
+        #7044cc;
+}
+
+
+/* =====================================================
+   30. DUE DATE INPUT
+   ===================================================== */
+
+#dueDateInput {
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   31. MODAL ACTIONS
+   ===================================================== */
+
+.modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 9px;
+
+    margin-top: 24px;
+}
+
+
+.cancel-btn,
+.submit-task-btn {
+
+    min-height: 42px;
+
+    padding:
+        0 17px;
+
+    border: none;
+
+    border-radius:
+        10px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+   transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        color 0.2s ease;
+}
+
+
+/* Cancel */
+
+.cancel-btn {
+
+    background:
+        #f2f3f6;
+
+    color:
+        #6f7380;
+}
+
+
+.cancel-btn:hover {
+
+    background:
+        #e9ebef;
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* Submit */
+
+.submit-task-btn {
+
+    color:
+        #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--button-purple),
+            var(--button-blue)
+        );
+
+    box-shadow:
+        0 6px 16px
+        rgba(91, 75, 200, 0.18);
+}
+
+
+.submit-task-btn:hover {
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 9px 20px
+        rgba(91, 75, 200, 0.23);
+}
+
+
+/* =====================================================
+   32. FOCUS STATES
+   ===================================================== */
+
+button:focus-visible,
+input:focus-visible {
+
+    outline:
+        3px solid
+        rgba(113, 56, 212, 0.25);
+
+    outline-offset:
+        2px;
+}
+
+
+/* =====================================================
+   33. ANIMATIONS
+   ===================================================== */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes modalSlideIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(12px)
+            scale(0.98);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =====================================================
+   34. TABLET RESPONSIVE
    ===================================================== */
 
 @media (max-width: 700px) {
 
     body {
-        padding: 20px 15px;
 
-        align-items: flex-start;
+        padding:
+            20px 12px;
     }
+
 
     .app {
-        border-radius: 22px;
 
-        margin-top: 15px;
+        border-radius:
+            20px;
     }
+
 
     .app-header {
-        padding: 35px 25px 30px;
+
+        padding:
+            32px 26px 28px;
     }
+
+
+    .date {
+
+        font-size:
+            27px;
+    }
+
 
     .task-section {
-        padding: 30px 25px 35px;
+
+        padding:
+            28px 26px 32px;
     }
+
 
     .section-heading {
-        align-items: flex-start;
 
-        flex-direction: column;
+        align-items:
+            stretch;
 
-        gap: 15px;
+        flex-direction:
+            column;
+
+        gap: 14px;
     }
 
+
     .search-box {
+
         width: 100%;
+    }
+
+
+    .statistics {
+
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 }
 
 
 /* =====================================================
-   20. RESPONSIVE DESIGN — MOBILE
+   35. MOBILE RESPONSIVE
    ===================================================== */
 
 @media (max-width: 480px) {
 
     body {
-        padding: 0;
+
+        padding:
+            0;
     }
+
 
     .app {
-        min-height: 100vh;
 
-        border-radius: 0;
+        min-height:
+            100vh;
 
-        margin: 0;
+        border-radius:
+            0;
     }
+
 
     .app-header {
-        padding: 35px 20px 25px;
+
+        padding:
+            28px 18px 24px;
     }
+
 
     .greeting {
-        font-size: 14px;
+
+        font-size:
+            13px;
     }
+
 
     .date {
-        font-size: 28px;
 
-        letter-spacing: -0.5px;
+        font-size:
+            24px;
+
+        letter-spacing:
+            -0.5px;
     }
+
 
     .subtitle {
-        font-size: 13px;
+
+        font-size:
+            12px;
     }
+
 
     .statistics {
-        gap: 8px;
 
-        margin-top: 28px;
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap:
+            8px;
+
+        margin-top:
+            22px;
     }
+
 
     .stat-card {
-        padding: 15px 5px;
 
-        border-radius: 12px;
+        padding:
+            12px 8px;
     }
+
 
     .stat-number {
-        font-size: 23px;
+
+        font-size:
+            20px;
     }
+
 
     .stat-label {
-        font-size: 9px;
 
-        letter-spacing: 0.7px;
+        font-size:
+            9px;
     }
+
 
     .task-section {
-        padding: 28px 20px 30px;
+
+        padding:
+            24px 16px 28px;
     }
+
+
+    .section-heading {
+
+        margin-bottom:
+            18px;
+    }
+
 
     .section-heading h2 {
-        font-size: 24px;
+
+        font-size:
+            21px;
     }
+
 
     .task-filters {
-        overflow-x: auto;
 
-        scrollbar-width: none;
+        margin-bottom:
+            16px;
     }
 
-    .task-filters::-webkit-scrollbar {
-        display: none;
-    }
 
     .filter-btn {
-        flex-shrink: 0;
+
+        padding:
+            8px 11px;
+
+        font-size:
+            11px;
     }
+
 
     .task-item {
-        padding: 13px 12px;
 
-        gap: 11px;
+        min-height:
+            64px;
+
+        gap:
+            9px;
+
+        padding:
+            10px;
     }
+
+
+    .task-checkbox {
+
+        width:
+            21px;
+
+        height:
+            21px;
+    }
+
 
     .task-text {
-        font-size: 14px;
+
+        font-size:
+            13px;
     }
 
+
+    .task-priority,
+    .task-due-date {
+
+        font-size:
+            9px;
+
+        padding:
+            3px 6px;
+    }
+
+
+    .edit-task,
     .delete-task {
-        width: 30px;
-        height: 30px;
+
+        width:
+            30px;
+
+        height:
+            30px;
+    }
+
+
+    .task-actions {
+
+        gap:
+            2px;
+    }
+
+
+    .clear-completed-btn {
+
+        font-size:
+            11px;
+    }
+
+
+    .add-task-btn {
+
+        min-height:
+            48px;
+
+        font-size:
+            13px;
+    }
+
+
+    .task-modal {
+
+        padding:
+            22px;
+
+        border-radius:
+            17px;
+    }
+
+
+    .modal-header h2 {
+
+        font-size:
+            20px;
+    }
+
+
+    .priority-options {
+
+        gap:
+            6px;
+    }
+
+
+    .priority-option span {
+
+        padding:
+            10px 6px;
+
+        font-size:
+            11px;
+    }
+
+
+    .modal-actions {
+
+        margin-top:
+            20px;
+    }
+
+
+    .cancel-btn,
+    .submit-task-btn {
+
+        min-height:
+            40px;
+
+        padding:
+            0 14px;
     }
 }
-
-
 /* =====================================================
-   21. REDUCED MOTION
+   36. VERY SMALL SCREENS
    ===================================================== */
 
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: 350px) {
 
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
+    .task-item {
 
-        transition-duration: 0.01ms !important;
+        gap:
+            7px;
+    }
+
+
+    .task-actions {
+
+        flex-direction:
+            column;
+    }
+
+
+    .task-text {
+
+        font-size:
+            12px;
+    }
+
+
+    .date {
+
+        font-size:
+            22px;
     }
 }
